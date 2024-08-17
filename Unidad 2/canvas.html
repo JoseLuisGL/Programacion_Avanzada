@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas I</title>
+    <style>
+        canvas{
+            background-color: aqua;
+        }
+    </style>
+</head>
+<body>
+    <h1>HOLA</h1>
+    <canvas id="canvas" width="500" height="500"></canvas>
+
+    <script type="text/javascript">
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+
+        ctx.fillStyle = "red";
+        ctx.fillRect(10,10,100,100);
+        ctx.fillStyle = "green";
+        ctx.fillRect(100,100,100,100);
+        ctx.fillStyle = "rgba(215,230,20,0.5)";
+        ctx.fillRect(180,190,100,100);
+
+
+
+    </script>      
+</body>
+</html>
