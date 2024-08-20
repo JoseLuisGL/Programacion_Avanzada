@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas I</title>
+    <style>
+        canvas{
+            background-color: gray;
+        }
+    </style>
+</head>
+<body>
+    <h1>Actividad 9</h1>
+    <canvas id="canvas" width="1500" height="1000"></canvas>
+
+    <script type="text/javascript">
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+
+        /*ctx.fillStyle = "red";
+        ctx.fillRect(100,100,100,100);*/
+        ctx.fillStyle = "green";
+        ctx.fillRect(50,50,200,200);
+        ctx.fillStyle = "rgba(215,230,20,0.5)";
+        ctx.fillRect(130,120,200,200);
+
+        /*ctx.lineWidth = "4";
+        ctx.strokeStyle = "yellow";
+        ctx.strokeRect(370,380,100,100); */
+
+        ctx.beginPath();
+        ctx.moveTo(450,250);
+        ctx.lineTo(650,50);
+        ctx.lineTo(750,250);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.fill();
+
+
+        ctx.lineWidth = "4";
+        ctx.strokeStyle = "white";
+        ctx.beginPath();
+        ctx.moveTo(750,250);
+        ctx.lineTo(850,400);
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(480, 430, 70, 0, 2 * Math.PI);
+        ctx.fillStyle = "blue";
+        ctx.fill();
+        ctx.strokeStyle = "red";
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(680, 430, 70, 0, 2 * Math.PI);
+        ctx.stroke();
+
+
+        
+        ctx.fillStyle = "white";
+        ctx.font = "100px Verdana";
+        ctx.fillText("Hola mundo", 800, 120);
+
+        ctx.fillStyle = "red";
+        ctx.font = "100px Verdana";
+        ctx.strokeText("Hola mundo", 805, 125);
+        
+        const grd = ctx.createLinearGradient(500, 0, 800, 800);
+        grd.addColorStop(0, "blue");
+        //grd.addColorStop(0.5, "purple");
+        grd.addColorStop(1, "red");
+
+        ctx.fillStyle = grd;
+        ctx.fillRect(500, 550, 400, 200);
+
+        const grd2 = ctx.createRadialGradient(700, 850, 15, 700, 860, 200);
+        grd2.addColorStop(0, "red");
+        grd2.addColorStop(0.5, "blue");
+        grd2.addColorStop(1, "yellow");
+
+        ctx.fillStyle = grd2;
+        ctx.fillRect(500, 750, 400, 200);
+
+
+        const image = new Image();
+        image.src = "sandia.png";
+
+        image.onload = function() {
+            ctx.drawImage(image, 100, 400, 200, 200);
+        };
+
+
+
+
+
+    </script>      
+</body>
+</html>
