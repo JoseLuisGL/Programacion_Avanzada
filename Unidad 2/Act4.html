@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Canvas I</title>
     <style>
-        canvas{
+        canvas {
             background-color: gray;
         }
     </style>
 </head>
+
 <body>
     <h1>Actividad 4</h1>
     <canvas id="canvas" width="1000" height="800"></canvas>
@@ -21,18 +23,18 @@
         /*ctx.fillStyle = "red";
         ctx.fillRect(100,100,100,100);*/
         ctx.fillStyle = "green";
-        ctx.fillRect(50,50,200,200);
+        ctx.fillRect(50, 50, 200, 200);
         ctx.fillStyle = "rgba(215,230,20,0.5)";
-        ctx.fillRect(130,120,200,200);
+        ctx.fillRect(130, 120, 200, 200);
 
         /*ctx.lineWidth = "4";
         ctx.strokeStyle = "yellow";
         ctx.strokeRect(370,380,100,100);*/
 
         ctx.beginPath();
-        ctx.moveTo(450,250);
-        ctx.lineTo(650,50);
-        ctx.lineTo(750,250);
+        ctx.moveTo(450, 250);
+        ctx.lineTo(650, 50);
+        ctx.lineTo(750, 250);
         ctx.closePath();
         ctx.stroke();
         ctx.fill();
@@ -41,8 +43,8 @@
         ctx.lineWidth = "4";
         ctx.strokeStyle = "white";
         ctx.beginPath();
-        ctx.moveTo(750,250);
-        ctx.lineTo(850,400);
+        ctx.moveTo(750, 250);
+        ctx.lineTo(850, 400);
         ctx.closePath();
         ctx.stroke();
 
@@ -57,6 +59,7 @@
         ctx.arc(680, 430, 70, 0, 2 * Math.PI);
         ctx.stroke();
 
-    </script>      
+    </script>
 </body>
+
 </html>
