@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas I</title>
+    <style>
+        canvas{
+            background-color: gray;
+        }
+    </style>
+</head>
+<body>
+    <h1>Actividad 12</h1>
+    <canvas id="canvas" width="800" height="600"></canvas>
+
+    <script type="text/javascript">
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.addEventListener("click", function(e){
+
+
+        ctx.beginPath();
+        ctx.arc(e.x, e.y, 70, 0, 2 * Math.PI);
+        ctx.fillStyle = "rgba(170, 0, 255,0.5)";
+        ctx.fill();
+        ctx.stroke();
+
+
+        })
+
+
+
+
+
+    </script>      
+</body>
+</html>
