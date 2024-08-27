@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas I</title>
+    <style>
+        canvas {
+            background-color: gray;
+        }
+    </style>
+</head>
+<body>
+    <h1>Actividad 19</h1>
+    <canvas id="canvas" width="800" height="600" tabindex="0"></canvas> 
+
+    <script type="text/javascript">
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        let x = 350;
+        let y = 250;
+
+        document.addEventListener("keydown", function(e){
+
+            ctx.fillStyle = getRandomColor();
+            ctx.fillRect(x, y, 50, 50);
+            ctx.stroke();
+
+            switch(e.key)
+            {
+                case "ArrowUp":
+                    y-=10;
+                break;
+                case "ArrowDown":
+                    y+=10;
+                break;
+                case "ArrowLeft":
+                    x-=10;
+                break;
+                case "ArrowRight":
+                    x+=10;
+                break;
+            }
+
+        })
+
+
+        function getRandomColor() {
+            var trans = '0.5'; 
+            var color = 'rgba(';
+            for (var i = 0; i < 3; i++) {
+                color += Math.floor(Math.random() * 255) + ',';
+            }
+            color += trans + ')';
+            return color;
+        }
+
+    </script>
+</body>
+</html>
