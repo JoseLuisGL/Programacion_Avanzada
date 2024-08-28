@@ -11,7 +11,7 @@
     </style>
 </head>
 <body>
-    <h1>Actividad 20</h1>
+    <h1>Actividad 26</h1>
     <canvas id="canvas" width="800" height="600" tabindex="0"></canvas> 
 
     <script type="text/javascript">
@@ -19,37 +19,27 @@
         const ctx = canvas.getContext("2d");
         let x = 350;
         let y = 250;
+        var direction = "";
 
         document.addEventListener("keydown", function(e){
-
-            ctx.fillStyle = "gray";
-            ctx.fillRect(0, 0, 800, 500);
-
-            ctx.fillStyle = getRandomColor();
-            ctx.fillRect(x, y, 50, 50);
-            ctx.stroke();
-
-
-            console.log(e);
 
             switch(e.key)
             {
                 case "ArrowUp":
-                    y-=10;
+                    direction = "up";
                 break;
                 case "ArrowDown":
-                    y+=10;
+                    direction = "down";
                 break;
                 case "ArrowLeft":
-                    x-=10;
+                    direction = "left";
                 break;
                 case "ArrowRight":
-                    x+=10;
+                    direction = "right";
                 break;
             }
 
         })
-
 
         function getRandomColor() {
             var trans = '0.5'; 
@@ -60,6 +50,45 @@
             color += trans + ')';
             return color;
         }
+
+        function update(){
+
+            switch(direction)
+            {
+                case "up":
+                    y-=10;
+                break;
+                case "down":
+                    y+=10;
+                break;
+                case "left":
+                    x-=10;
+                break;
+                case "right":
+                    x+=10;
+                break;
+            }
+
+
+        }
+
+        function pintar(){
+
+            ctx.fillStyle = "gray";
+            ctx.fillRect(0, 0, 800, 500);
+
+            ctx.fillStyle = getRandomColor();
+            ctx.fillRect(x, y, 50, 50);
+            ctx.stroke();
+
+
+            //console.log(e);
+            update();
+            requestAnimationFrame(pintar);
+
+        }
+
+        requestAnimationFrame(pintar);
 
     </script>
 </body>
