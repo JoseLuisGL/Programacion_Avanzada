@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas I</title>
+    <style>
+        canvas{
+            background-color: gray;
+        }
+    </style>
+</head>
+<body>
+    <h1>Actividad 21</h1>
+    <canvas id="canvas" width="1500" height="800"></canvas>
+
+    <script type="text/javascript">
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+
+        //Pelo atras
+        ctx.beginPath();
+        ctx.arc(750, 160, 80, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        
+        //Cabeza
+        ctx.beginPath();
+        ctx.arc(750, 180, 80, 0, 2 * Math.PI);
+        ctx.fillStyle = "#FCB88A";
+        ctx.fill();
+
+        //Pelo frente
+        ctx.beginPath();
+        ctx.arc(680, 100, 40, 0, .5 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(760, 100, 40, 1.5, 1 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(700, 100, 40, 0, .5 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(780, 100, 40, 1.5, 1 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(720, 100, 40, 0, .5 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(800, 100, 40, 1.5, 1 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(740, 100, 40, 0, .5 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(820, 100, 40, 1.5, 1 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(720, 110, 20, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(750, 110, 20, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(780, 110, 20, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(720, 170, 8, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(775, 170, 8, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(750, 210, 15, 0, 1* Math.PI);
+        ctx.fillStyle = "black";
+        ctx.stroke();
+       
+        //Cuerpo
+        ctx.fillStyle = "black";
+        ctx.fillRect(675,281,150,250);
+
+        //Brazos
+        ctx.fillStyle = "black";
+        ctx.fillRect(625,281,50,40);
+        ctx.fillStyle = "#FCB88A";
+        ctx.fillRect(625,320,50,150);
+        ctx.beginPath();
+        ctx.arc(650, 470, 25, 0, 2 * Math.PI);
+        ctx.fillStyle = "FCB88A";
+        ctx.fill();
+
+
+        ctx.fillStyle = "black";
+        ctx.fillRect(825,281,50,40);
+        ctx.fillStyle = "#FCB88A";
+        ctx.fillRect(825,320,50,150);
+        ctx.beginPath();
+        ctx.arc(850, 470, 25, 0, 2 * Math.PI);
+        ctx.fillStyle = "FCB88A";
+        ctx.fill();
+
+
+        //Piernas
+        ctx.fillStyle = "white";
+        ctx.fillRect(675,500,70,250);
+     
+        ctx.fillStyle = "white";
+        ctx.fillRect(755,500,70,250);
+
+        //Cinto
+        ctx.fillStyle = "black";
+        ctx.fillRect(675,505,150,10);
+        ctx.fillStyle = "black";
+        ctx.fillRect(685,500,50,10);
+        ctx.fillStyle = "black";
+        ctx.fillRect(765,500,50,10);
+
+        //Globo de texto
+        ctx.fillStyle = "white";
+        ctx.beginPath();
+        ctx.moveTo(900,150);
+        ctx.lineTo(890,130);
+        ctx.lineTo(850,150);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(965, 100, 80, 0, 2 * Math.PI);
+        ctx.fillStyle = "white";
+        ctx.fill();
+
+        ctx.fillStyle = "black";
+        ctx.font = "oblique 40px Verdana";
+        ctx.fillText("Nah,", 920, 80);
+        ctx.fillText("i'd", 940, 120);
+        ctx.fillText("win", 930, 155);
+
+
+
+
+    </script>      
+</body>
+</html>
