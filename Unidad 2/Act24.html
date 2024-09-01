@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas I</title>
+    <style>
+        canvas{
+            background-color: #2000A0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Actividad 24</h1>
+    <canvas id="canvas" width="1000" height="790"></canvas>
+
+    <script type="text/javascript">
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+
+        //Pisos
+        ctx.fillStyle = "#80E000";
+        ctx.fillRect(0,550,1000,25);
+
+
+        //Piso Tierra
+        ctx.fillStyle = "#C06000";
+        ctx.fillRect(0,625,1000,165);
+
+        //Cuadrados tierra
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(50,590,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(150,590,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(250,590,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(350,590,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(450,590,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(550,590,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(650,590,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(750,590,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(850,590,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(950,590,50,50);
+
+        //
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(0,640,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(100,640,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(200,640,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(300,640,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(400,640,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(500,640,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(600,640,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(700,640,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(800,640,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(900,640,50,50);
+
+        //
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(50,690,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(150,690,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(250,690,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(350,690,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(450,690,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(550,690,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(650,690,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(750,690,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(850,690,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(950,690,50,50);
+
+        //
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(0,740,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(100,740,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(200,740,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(300,740,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(400,740,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(500,740,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(600,740,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(700,740,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(800,740,50,50);
+
+        ctx.fillStyle = "#602000";
+        ctx.fillRect(900,740,50,50);
+
+        //Segundo Piso
+        ctx.fillStyle = "#40A000";
+        ctx.fillRect(0,575,1000,25);
+
+        //Tercer piso
+        ctx.fillStyle = "#006000";
+        ctx.fillRect(0,600,1000,25);
+
+        ctx.fillStyle = "rgba(0,0,0,0.4)";
+        ctx.fillRect(0,575,1000,90);
+
+        //Anillos
+        ctx.beginPath();
+        ctx.arc(150, 475, 30, 0, 2 * Math.PI);
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = "#FDFC02";
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(300, 475, 30, 0, 2 * Math.PI);
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = "#FDFC02";
+        ctx.stroke();
+        
+        ctx.beginPath();
+        ctx.arc(450, 475, 30, 0, 2 * Math.PI);
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = "#FDFC02";
+        ctx.stroke();
+        
+        drawTree(-10, 540, 60, -Math.PI / 2, 12, 16);
+        drawTree(665, 540, 60, -Math.PI / 2, 12, 16);
+
+        //Hojas y arbol --Se lo copie a un ruso :v
+        function drawTree(startX, startY, length, angle, depth, branchWidth) {
+        var rand = Math.random;
+        var newLength, newAngle, newDepth, maxBranch = 3,
+            endX, endY, maxAngle = 2 * Math.PI / 6, subBranches;
+
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        endX = startX + length * Math.cos(angle);
+        endY = startY + length * Math.sin(angle);
+        ctx.lineCap = 'round';
+        ctx.lineWidth = branchWidth;
+        ctx.lineTo(endX, endY);
+
+        if (depth <= 2) {
+            ctx.strokeStyle = 'rgb(0,' + (((rand() * 24) + 128) >> 0) + ',0)';
+        }
+        else {
+            ctx.strokeStyle = 'rgb(128,' + (((rand() * 24) + 64) >> 0) + ',0)';
+        }
+        ctx.stroke();
+        newDepth = depth - 1;
+
+        if(!newDepth) {
+            return;
+        }
+        subBranches = (rand() * (maxBranch - 1)) + 1;
+        branchWidth *= 0.7;
+
+        for (var i = 0; i < subBranches; i++) {
+            newAngle = angle + rand() * maxAngle - maxAngle * 0.5;
+            newLength = length * (0.7 + rand() * 0.3);
+
+            drawTree(endX, endY, newLength, newAngle, newDepth, branchWidth);
+        }
+
+        }
+
+        //Flor
+        ctx.fillStyle = "#40A000";
+        ctx.fillRect(880,460,15,90);
+
+        //
+        ctx.beginPath();
+        ctx.arc(887, 425, 50, 0, 2 * Math.PI);
+        ctx.fillStyle = "#E0E000";
+        ctx.fill();
+
+        //Centro
+        ctx.beginPath();
+        ctx.arc(887, 425, 25, 0, 2 * Math.PI);
+        ctx.fillStyle = "#406040";
+        ctx.fill();
+
+
+    </script>      
+</body>
+</html>
