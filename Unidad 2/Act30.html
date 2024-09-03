@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas I</title>
+    <style>
+        canvas {
+            background-color: gray;
+        }
+    </style>
+</head>
+<body>
+    <h1>Actividad 30</h1>
+    <canvas id="canvas" width="800" height="600" tabindex="0"></canvas> 
+
+    <script type="text/javascript">
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+       
+        var direction = "";
+        var speed = 10;
+
+        class Rectangulo {
+            constructor(x, y , w, h, c, s) {
+                this.x = x;
+                this.y = y;
+                this.w = w;
+                this.h = h;
+                this.c = c;
+                this.s = s;
+            }
+
+            contacto(otro) {
+                if( this.x < otro.x + otro.w &&
+                    this.x + this.w > otro.x &&
+                    this.y < otro.y + otro.h &&
+                    this.y + this.h > otro.y)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        var player = new Rectangulo(350,250,50,50,getRandomColor(),10);
+        var tarjet = new Rectangulo(100,100,50,50,getRandomColor(),10);
+
+        document.addEventListener("keydown", function(e){
+
+            switch(e.key)
+            {
+                case "ArrowUp":
+                    direction = "up";
+                break;
+                case "ArrowDown":
+                    direction = "down";
+                break;
+                case "ArrowLeft":
+                    direction = "left";
+                break;
+                case "ArrowRight":
+                    direction = "right";
+                break;
+                case " ":
+                    speed+= 2.5;
+                break;
+            }
+
+        })
+
+        function getRandomColor() {
+            var trans = '0.5'; 
+            var color = 'rgba(';
+            for (var i = 0; i < 3; i++) {
+                color += Math.floor(Math.random() * 255) + ',';
+            }
+            color += trans + ')';
+            return color;
+        }
+
+        function update(){
+
+            switch(direction)
+            {
+                case "up":
+                    player.y-=speed;
+                    if(player.y ==-40){
+                        player.y = 600;
+                    }
+                break;
+                case "down":
+                    player.y+=speed;
+                    if(player.y ==640){
+                        player.y = -40;
+                    }
+                break;
+                case "left":
+                    player.x-=speed;
+                    if(player.x == -40){
+                        player.x = 840;
+                    }
+                break;
+                case "right":
+                    player.x+=speed;
+                    if(player.x == 840){
+                        player.x = -40;
+                    }
+                break;
+            }
+
+            if(player.contacto(tarjet)){
+                tarjet.x = Math.floor(Math.random() * 455);
+                tarjet.y = Math.floor(Math.random() * 455);
+            }
+
+        }
+
+        function pintar(){
+
+            ctx.fillStyle = "gray";
+            ctx.fillRect(0, 0, 800, 600);
+
+            //player
+            ctx.fillStyle = player.c;
+            ctx.fillRect(player.x, player.y, player.w, player.h);
+            ctx.stroke();
+
+            //tarjet
+            ctx.fillStyle = tarjet.c;
+            ctx.fillRect(tarjet.x, tarjet.y, tarjet.w, tarjet.h);
+            ctx.stroke();
+
+            ctx.fillStyle = "black";
+            ctx.font = "50px Verdana";
+            ctx.fillText(speed, 500, 100,);
+                
+
+            //console.log(e);
+            update();
+            requestAnimationFrame(pintar);
+
+        }
+
+        requestAnimationFrame(pintar);
+
+    </script>
+</body>
+</html>
