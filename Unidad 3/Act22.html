@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue JS</title>
+    <style>
+        .main{
+            background-color: rgb(7, 170, 192);
+            width: 600px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Actividad 5</h1>
+    <div id="main" class="main">
+        <h2>Hola {{nombre}}</h2>
+        <div>
+            <input type="text" v-model="nombre" placeholder="Escribe aqui">
+        </div>
+        <button @click="contador++">Count is: {{ contador }}</button>
+        <div>
+            <input type="number" v-model="num1" placeholder="Numero 1">
+        </div>
+        <div>
+            <input type="number" v-model="num2" placeholder="Numero 2">
+            <button @click="resultado = num1 + num2">Sumar</button>
+            <h3>Resultado {{resultado}}</h3>
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const { createApp, ref } = Vue
+      
+        createApp({
+          setup() {
+            const nombre = ref('')
+            const contador = ref(0)
+            const num1 = ref(0)
+            const num2 = ref(0)
+            const resultado = ref(0)
+            return {
+              nombre,
+              contador,
+              num1,
+              num2,
+              resultado
+            }
+          }
+        }).mount('#main')
+      </script>
+  
+</body>
+</html>
