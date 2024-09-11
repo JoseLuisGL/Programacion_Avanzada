@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue JS</title>
+    <style>
+  
+    </style>
+</head>
+<body>
+    <h1>Actividad 7</h1>
+    <div id="main" class="main">
+      <li v-for="item in usuarios">
+        {{ item.nombre }} {{ item.apellido }}
+      </li>
+      <form @submit.prevent="newUser">
+        <div>
+          <input type="text" v-model="nombre" placeholder="Nombre aqui">
+        </div>
+        <div>
+          <input type="text" v-model="apellido" placeholder="Apellido aqui">
+        </div>
+        <button type="newUser">Agregar</button>
+      </form>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const { createApp, ref } = Vue
+      
+        createApp({
+          setup() {
+            let usuarios = ref([
+              {
+                "nombre":"Jose",
+                "apellido":"Gomez"
+              },
+              {
+                "nombre":"Aaron",
+                "apellido":"Lopez"
+              }
+            ])
+            return {
+              usuarios
+            }
+          },
+          methods: {
+
+            newUser(){
+              let tmp = {
+                "nombre":this.nombre,
+                "apellido":this.apellido
+              }
+              this.usuarios.push(tmp)
+            }
+
+          }
+        }).mount('#main')
+      </script>
+  
+</body>
+</html>
