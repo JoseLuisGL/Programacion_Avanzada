@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue JS</title>
+</head>
+<body>
+    <h1>Actividad 11</h1>
+    <div id="main" class="main">
+      <form @submit.prevent="login" v-for="!access">
+        <div>
+          <label >Correo</label>
+          <input type="email" v-model="email" placeholder="Correo aqui" required>
+        </div>
+        <div>
+          <label>Password</label>
+          <input type="password" v-model="password" placeholder="Contraseña aqui" required>
+        </div>
+        <button type="login">Iniciar</button>
+      </form>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const { createApp, ref } = Vue
+      
+        createApp({
+          setup() {
+            let email = ref('')
+            let password = ref('')
+            let access = (false)
+
+            return{
+              email,
+              password,
+              access
+            }
+            
+          },
+          methods: {
+
+            login(){
+              
+              fetch('users.json')
+              .then(res=>res.json())
+              .then((response) => {
+
+                response.forEach((e) => {
+                  if (e.email === this.email && e.password === this.password) {
+                    access = true;
+                    alert("Bienvenido");
+                  }
+                });
+
+                if (!access) {
+                  alert("Usuario o contraseña incorrectos");
+                }
+
+              }).catch((error) => {
+                alert("Ha ocurrido un erorr");
+              });
+
+            }
+
+          }
+        }).mount('#main')
+      </script>
+  
+</body>
+</html>
