@@ -8,7 +8,7 @@
 <body>
     <h1>Actividad 11</h1>
     <div id="main" class="main">
-      <form @submit.prevent="login" v-for="!access">
+      <form @submit.prevent="login" v-if="!access">
         <div>
           <label >Correo</label>
           <input type="email" v-model="email" placeholder="Correo aqui" required>
@@ -19,6 +19,9 @@
         </div>
         <button type="login">Iniciar</button>
       </form>
+      <div v-if="access">
+        <h1>HOLAAA</h1>
+      </div>
     </div>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script>
@@ -28,7 +31,7 @@
           setup() {
             let email = ref('')
             let password = ref('')
-            let access = (false)
+            let access = ref(false)
 
             return{
               email,
@@ -47,12 +50,12 @@
 
                 response.forEach((e) => {
                   if (e.email === this.email && e.password === this.password) {
-                    access = true;
+                    this.access = true;
                     alert("Bienvenido");
                   }
                 });
 
-                if (!access) {
+                if (!this.access) {
                   alert("Usuario o contraseña incorrectos");
                 }
 
