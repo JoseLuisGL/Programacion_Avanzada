@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue JS</title>
+    <style>
+      .borde{
+        border: 1px solid black;
+        text-align: center;
+      }
+    </style>
+</head>
+<body>
+    <h1>Actividad 13</h1>
+    <div id="main" class="main">
+      <form @submit.prevent="login" v-if="!access">
+        <div>
+          <label>Correo</label>
+          <input type="email" v-model="email" placeholder="Correo aqui" required>
+        </div>
+        <div>
+          <label>Contraseña</label>
+          <input type="password" v-model="password" placeholder="Contraseña aqui" required>
+        </div>
+        <button type="login">Iniciar</button>
+      </form>
+      <div v-if="access">
+        <h1>TABLA MUY BUENA DE DATOS USUARIOS</h1>
+        <button @click="buttonAdd">Agregar</button>
+        <table v-if="!add" style="font-size: 20px; border-collapse: collapse; width: 80%; background-color: #739CF4;">
+          <thead>
+            <tr class="borde">
+              <th class="borde">Nombre</th>
+              <th class="borde">Correo</th>
+              <th class="borde">Contraseña</th>
+              <th class="borde">Genero</th>
+              <th class="borde">Compañia</th>
+              <th class="borde">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="user in users" :key="user.email" class="borde">
+              <td class="borde">{{ user.name }}</td>
+              <td class="borde">{{ user.email }}</td>
+              <td class="borde">{{ user.password }}</td>
+              <td class="borde">{{ user.gender }}</td>
+              <td class="borde">{{ user.company }}</td>
+              <td class="borde"><button>Editar</button><button>Borrar</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <form v-if="add">
+          <div>
+            <label>Nombre</label>
+            <input type="text" v-model="name" placeholder="Nombre aqui" required>
+          </div>
+          <div>
+            <label>Correo</label>
+            <input type="email" v-model="email" placeholder="Correo aqui" required>
+          </div>
+          <div>
+            <label>Contraseña</label>
+            <input type="password" v-model="password" placeholder="Contraseña aqui" required>
+          </div>
+          <div>
+            <label>Genero</label>
+            <input type="text" v-model="gender" placeholder="Genero aqui" required>
+          </div>
+          <div>
+            <label>Compañia</label>
+            <input type="text" v-model="company" placeholder="Compañia aqui" required>
+          </div>
+          <button type="button" @click="saveUser">Guardar</button>
+          <button type="button" @click="buttonCancel">Cancelar</button>
+        </form>
+      </div>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const { createApp, ref } = Vue
+        
+        createApp({
+          setup() {
+            let email = ref('')
+            let password = ref('')
+            let name = ref('')
+            let gender = ref('')
+            let company = ref('')
+            let access = ref(false)
+            let users = ref([])
+            let add = ref(false)
+            let cancel = ref(false)
+
+            return {
+              email,
+              password,
+              name,
+              gender,
+              company,
+              access,
+              users,
+              add,
+              cancel
+            }
+          },
+          methods: {
+            login() {
+              fetch('users.json')
+              .then(res => res.json())
+              .then((response) => {
+                this.users = response; 
+
+                const user = response.find(e => e.email === this.email && e.password === this.password);
+                if (user) {
+                  this.access = true;
+                  alert("Bienvenido");
+                }
+
+                if (!this.access) {
+                  alert("Usuario o contraseña incorrectos");
+                }
+
+              }).catch((error) => {
+                alert("Ha ocurrido un error");
+              });
+            },
+            buttonAdd() {
+              this.add = !this.add;
+              this.email = '';
+              this.password = '';
+              this.name = '';
+              this.gender = '';
+              this.company = '';
+            },
+            buttonCancel() {
+              this.add = !this.add;
+            },
+            saveUser() {
+              let tmp = {
+                "name":this.name,
+                "email":this.email,
+                "password":this.password,
+                "gender":this.gender,
+                "company":this.company,
+              }
+              this.users.push(tmp)
+              this.add = !this.add;
+            }
+          }
+        }).mount('#main')
+    </script>
+</body>
+</html>
