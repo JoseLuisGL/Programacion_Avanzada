@@ -28,6 +28,7 @@
       <div v-if="access">
         <h1>TABLA MUY BUENA DE DATOS USUARIOS</h1>
         <button @click="buttonAdd">Agregar</button>
+        <button @click="logout">Cerrar sesión</button>
         <table v-if="!add" style="font-size: 20px; border-collapse: collapse; width: 80%; background-color: #739CF4;">
           <thead>
             <tr class="borde">
@@ -78,7 +79,7 @@
     </div>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script>
-        const { createApp, ref } = Vue
+        const { createApp, ref, onMounted  } = Vue
         
         createApp({
           setup() {
@@ -91,6 +92,14 @@
             let users = ref([])
             let add = ref(false)
             let cancel = ref(false)
+
+            onMounted(() => {
+              const savedUser = JSON.parse(localStorage.getItem('user'));
+              if (savedUser) {
+                email.value = savedUser.email;
+                access.value = true;
+              }
+            });
 
             return {
               email,
@@ -114,6 +123,7 @@
                 const user = response.find(e => e.email === this.email && e.password === this.password);
                 if (user) {
                   this.access = true;
+                  localStorage.setItem('user', JSON.stringify(user));
                   alert("Bienvenido");
                 }
 
@@ -146,6 +156,13 @@
               }
               this.users.push(tmp)
               this.add = !this.add;
+            },
+            logout() {
+              localStorage.removeItem('user');
+              this.access = false;
+              this.email = '';
+              this.password = '';
+              alert("Has cerrado sesión");
             }
           }
         }).mount('#main')
