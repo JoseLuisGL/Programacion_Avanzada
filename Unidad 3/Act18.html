@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue JS</title>
+    <style>
+      .borde {
+        border: 1px solid black;
+        text-align: center;
+        margin: 10px;
+      }
+      .movie-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .movie {
+        margin: 100px;
+        width: 250px;
+      }
+      .movie img {
+        width: 100%;
+        height: auto;
+      }
+      .movie-title {
+        font-weight: bold;
+        margin-top: 10px;
+      }
+    </style>
+</head>
+<body>
+    <h1>Actividad 18</h1>
+    <div id="main" class="main">
+      <form @submit.prevent="login" v-if="!access">
+        <div>
+          <label>Correo</label>
+          <input type="text" v-model="email" placeholder="Correo aqui" required>
+        </div>
+        <div>
+          <label>Contraseña</label>
+          <input type="password" v-model="password" placeholder="Contraseña aqui" required>
+        </div>
+        <button type="login">Iniciar</button>
+      </form>
+      <div v-if="access">
+        <h1>LISTA DE PELICULAS</h1>
+        <div class="movie-container">
+          <div v-for="movie in movies" :key="movie.id" class="movie borde" v-if="!details">
+            <img :src="'https://image.tmdb.org/t/p/w500/' + movie.poster_path">
+            <div class="movie-title">{{ movie.title }}</div>
+            <br>
+            <div><button @click="viewDetails(movie.id)">Detalles</button></div>
+            <br>
+          </div>
+        </div>
+        <div v-if="details">
+          <h2>Detalles de la Película</h2>
+          <p><strong>Título:</strong> {{ details.title }}</p>
+          <p><strong>Fecha de lanzamiento:</strong> {{ details.release_date }}</p>
+          <p><strong>Descripción:</strong> {{ details.overview }}</p>
+          <img v-if="details.poster_path" :src="'https://image.tmdb.org/t/p/w500/' + details.poster_path" alt="Poster">
+          <div> <button @click="toBack">Atras</button> </div>
+          <div>
+            <h2>Añadir Rating</h2>
+            <form @submit.prevent="addRating(details.id)">
+                <label>Tu Rating: </label>
+                <input type="number" v-model="value_rating" min="1" max="10" placeholder="Rating" required>
+                <div><button type="submit">Agregar</button></div>
+            </form>
+            <br>
+            <h2>Borrar Rating</h2>
+            <div>
+                <button @click="deleteRating(details.id)">Borrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const { createApp, ref, onMounted } = Vue
+
+        createApp({
+          setup() {
+            let email = ref('jgomez_21')
+            let password = ref('TW8xBjj!C2X2$nX')
+            let access = ref(false)
+            let details = ref(false)
+            let movies = ref([])
+            let value_rating = ref('')
+
+            return {
+              email,
+              password,
+              access,
+              movies,
+              details,
+              value_rating
+            }
+          },
+          methods: {
+            login(){
+              var myHeaders = new Headers();
+              myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjMWJiNjZjYTgxNzA5NjZkMjFmMjI4ZWJmOWI0ZmI4NCIsIm5iZiI6MTcyNzIxNzg5MS40Njk3MDcsInN1YiI6IjY2ZjMxOGYzMDIyMDhjNjdjODhkYWM4MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.vERnsTknlvRt_F-1AWya7XjpiQySFz2_1aSkq55Bqm0");
+              myHeaders.append("Content-Type", "application/json");
+
+              const raw = JSON.stringify({
+                "username": this.email,
+                "password": this.password,
+                "request_token": ""
+              });
+
+              const requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw
+              };
+
+              fetch("https://api.themoviedb.org/3/authentication/token/validate_with_login", requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                  if (result.success) {
+                    localStorage.setItem("user_log", JSON.stringify(result));
+                    this.access = true;
+                    this.fetchMovies();
+                  } else {
+                    alert('Usuario o contraseña incorrectos');
+                  }
+                })
+                .catch(error => console.log('error', error));
+            },
+            fetchMovies(){
+              var myHeaders = new Headers();
+                myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjMWJiNjZjYTgxNzA5NjZkMjFmMjI4ZWJmOWI0ZmI4NCIsIm5iZiI6MTcyNzIxNzg5MS40Njk3MDcsInN1YiI6IjY2ZjMxOGYzMDIyMDhjNjdjODhkYWM4MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.vERnsTknlvRt_F-1AWya7XjpiQySFz2_1aSkq55Bqm0");
+                
+                const requestOptions = {
+                  method: 'GET',
+                  headers: myHeaders
+                };
+
+                fetch("https://api.themoviedb.org/3/discover/movie", requestOptions)
+                  .then(response => response.json())
+                  .then(data => {
+                    this.movies = data.results;
+                  })
+                  .catch(error => console.log('error', error));
+            },
+            viewDetails(movie_id){
+                var myHeaders = new Headers();
+                myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjMWJiNjZjYTgxNzA5NjZkMjFmMjI4ZWJmOWI0ZmI4NCIsIm5iZiI6MTcyNzIxNzg5MS40Njk3MDcsInN1YiI6IjY2ZjMxOGYzMDIyMDhjNjdjODhkYWM4MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.vERnsTknlvRt_F-1AWya7XjpiQySFz2_1aSkq55Bqm0");
+
+                const requestOptions = {
+                method: 'GET',
+                headers: myHeaders,
+                redirect: 'follow'
+                };
+
+                fetch(`https://api.themoviedb.org/3/movie/${movie_id}`, requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    console.log(result);
+                    console.log(movie_id);
+                    this.details = result;
+                })
+                .catch(error => console.log('error', error));
+            },
+            toBack(){
+                this.details = false;
+                this.value_rating = "";
+            },
+            addRating(movie_id){
+                var myHeaders = new Headers();
+                myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjMWJiNjZjYTgxNzA5NjZkMjFmMjI4ZWJmOWI0ZmI4NCIsIm5iZiI6MTcyNzIxNzg5MS40Njk3MDcsInN1YiI6IjY2ZjMxOGYzMDIyMDhjNjdjODhkYWM4MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.vERnsTknlvRt_F-1AWya7XjpiQySFz2_1aSkq55Bqm0");
+                myHeaders.append("Content-Type", "application/json");
+
+                var raw = JSON.stringify({
+                "value": this.value_rating //Rating para el form asjkdh .... me rendi con los estilos bay
+                });
+
+                var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+                };
+
+                fetch(`https://api.themoviedb.org/3/movie/${movie_id}/rating`, requestOptions)
+                .then(response => response.text())
+                .then(result => {
+                    alert("Rating agreado");
+                    this.value_rating = "";
+                })
+                .catch(error => console.log('error', error));
+            },
+            deleteRating(movie_id){
+                var myHeaders = new Headers();
+                myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjMWJiNjZjYTgxNzA5NjZkMjFmMjI4ZWJmOWI0ZmI4NCIsIm5iZiI6MTcyNzIxNzg5MS40Njk3MDcsInN1YiI6IjY2ZjMxOGYzMDIyMDhjNjdjODhkYWM4MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.vERnsTknlvRt_F-1AWya7XjpiQySFz2_1aSkq55Bqm0");
+
+                var requestOptions = {
+                method: 'DELETE',
+                headers: myHeaders,
+                redirect: 'follow'
+                };
+
+                fetch(`https://api.themoviedb.org/3/movie/${movie_id}/rating`, requestOptions)
+                .then(response => response.text())
+                .then(result => {
+                    alert("Rating borrado");
+                })
+                .catch(error => console.log('error', error));
+            }
+          },
+          mounted() {
+          const session = localStorage.getItem("user_log");
+          if (session) {
+            this.access = true;
+            this.fetchMovies();
+          }
+        }
+        }).mount('#main')
+    </script>
+</body>
+</html>
