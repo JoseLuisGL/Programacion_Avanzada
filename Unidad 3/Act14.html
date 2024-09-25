@@ -143,29 +143,25 @@
           },
           methods: {
             login() {
-              var myHeaders = new Headers();
-              myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjMWJiNjZjYTgxNzA5NjZkMjFmMjI4ZWJmOWI0ZmI4NCIsIm5iZiI6MTcyNzIxNzg5MS40Njk3MDcsInN1YiI6IjY2ZjMxOGYzMDIyMDhjNjdjODhkYWM4MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.vERnsTknlvRt_F-1AWya7XjpiQySFz2_1aSkq55Bqm0");
-              myHeaders.append("Content-Type", "application/json");
+              fetch('users.json')
+              .then(res => res.json())
+              .then((response) => {
+                this.users = response; 
 
-              var raw = JSON.stringify({
-                "username": "jgomez_21",
-                "password": "TW8xBjj!C2X2$nX",
-                "request_token": ""
+                const user = response.find(e => e.email === this.email && e.password === this.password);
+                if (user) {
+                  this.access = true;
+                  localStorage.setItem('user', JSON.stringify(user));
+                  alert("Bienvenido");
+                }
+
+                if (!this.access) {
+                  alert("Usuario o contraseña incorrectos");
+                }
+
+              }).catch((error) => {
+                alert("Ha ocurrido un error");
               });
-
-              var requestOptions = {
-                method: 'POST',
-                headers: myHeaders,
-                body: raw,
-                redirect: 'follow'
-              };
-
-              fetch("https://api.themoviedb.org/3/authentication/token/validate_with_login", requestOptions)
-                .then(response => response.json())
-                .then(result => {
-                  console.log(result)
-                })
-                .catch(error => console.log('error', error));
             },
             buttonAdd() {
               this.add = !this.add;

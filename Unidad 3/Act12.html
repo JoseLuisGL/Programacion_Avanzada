@@ -12,104 +12,92 @@
     </style>
 </head>
 <body>
-    <h1>Actividad 18</h1>
+    <h1>Actividad 12</h1>
     <div id="main" class="main">
       <form @submit.prevent="login" v-if="!access">
         <div>
-          <label>Correo</label>
-          <input type="text" v-model="email" placeholder="Correo aqui" required>
+          <label >Correo</label>
+          <input type="email" v-model="email" placeholder="Correo aqui" required>
         </div>
         <div>
-          <label>Contraseña</label>
+          <label>Password</label>
           <input type="password" v-model="password" placeholder="Contraseña aqui" required>
         </div>
         <button type="login">Iniciar</button>
       </form>
       <div v-if="access">
-        <h1>LISTA DE PELICULAS</h1>
-        <div>
-          <ul>
-            <li v-for="movie in movies" :key="movie.id" class="borde">
-              {{ movie.title }} ({{ movie.release_date }})
-            </li>
-          </ul>
-        </div>
+        <h1>TABLA MUY BUENA DE DATOS USUARIOS</h1>
+        <table style="font-size: 20px; border-collapse: collapse; width: 80%; background-color: #739CF4;">
+          <thead>
+            <tr class="borde">
+              <th class="borde">Nombre</th>
+              <th class="borde">Correo</th>
+              <th class="borde">Contraseña</th>
+              <th class="borde">Genero</th>
+              <th class="borde">Compañia</th>
+              <th class="borde">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="user in users" :key="user.email" class="borde">
+              <td class="borde">{{ user.name }}</td>
+              <td class="borde">{{ user.email }}</td>
+              <td class="borde">{{ user.password }}</td>
+              <td class="borde">{{ user.gender }}</td>
+              <td class="borde">{{ user.company }}</td>
+              <td class="borde"><button>Editar</button><button>Borrar</button></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script>
-        const { createApp, ref, onMounted } = Vue
-
+        const { createApp, ref } = Vue
+      
         createApp({
           setup() {
-            let email = ref('jgomez_21')
-            let password = ref('TW8xBjj!C2X2$nX')
+            let email = ref('')
+            let password = ref('')
             let access = ref(false)
-            let movies = ref([])
+            let users = ref([])
 
-            const session = localStorage.getItem("user_log")
-            if (session) {
-              access.value = true
-              fetchMovies();  // Cargar películas si ya está logueado
-            } 
-
-            const fetchMovies = () => {
-              const myHeaders = new Headers();
-              myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjMWJiNjZjYTgxNzA5NjZkMjFmMjI4ZWJmOWI0ZmI4NCIsIm5iZiI6MTcyNzIxNzg5MS40Njk3MDcsInN1YiI6IjY2ZjMxOGYzMDIyMDhjNjdjODhkYWM4MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.vERnsTknlvRt_F-1AWya7XjpiQySFz2_1aSkq55Bqm0");
-              
-              const requestOptions = {
-                method: 'GET',
-                headers: myHeaders
-              };
-
-              fetch("https://api.themoviedb.org/3/discover/movie", requestOptions)
-                .then(response => response.json())
-                .then(data => {
-                  movies.value = data.results;  // Guardar las películas en la variable movies
-                })
-                .catch(error => console.log('error', error));
-            }
-
-            const login = () => {
-              const myHeaders = new Headers();
-              myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjMWJiNjZjYTgxNzA5NjZkMjFmMjI4ZWJmOWI0ZmI4NCIsIm5iZiI6MTcyNzIxNzg5MS40Njk3MDcsInN1YiI6IjY2ZjMxOGYzMDIyMDhjNjdjODhkYWM4MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.vERnsTknlvRt_F-1AWya7XjpiQySFz2_1aSkq55Bqm0");
-              myHeaders.append("Content-Type", "application/json");
-
-              const raw = JSON.stringify({
-                "username": email.value,
-                "password": password.value,
-                "request_token": ""
-              });
-
-              const requestOptions = {
-                method: 'POST',
-                headers: myHeaders,
-                body: raw
-              };
-
-              fetch("https://api.themoviedb.org/3/authentication/token/validate_with_login", requestOptions)
-                .then(response => response.json())
-                .then(result => {
-                  if (result.success) {
-                    localStorage.setItem("user_log", JSON.stringify(result));
-                    access.value = true;
-                    fetchMovies();  // Cargar películas después del login
-                  } else {
-                    alert('Usuario o contraseña incorrectos');
-                  }
-                })
-                .catch(error => console.log('error', error));
-            }
-
-            return {
+            return{
               email,
               password,
               access,
-              movies,
-              login
+              users
             }
+            
+          },
+          methods: {
+
+            login(){
+              
+              fetch('users.json')
+              .then(res=>res.json())
+              .then((response) => {
+                this.users = response; 
+
+                const user = response.find(e => e.email === this.email && e.password === this.password);
+                if (user) {
+                  this.access = true;
+                  alert("Bienvenido");
+                }
+
+                if (!this.access) {
+                  alert("Usuario o contraseña incorrectos");
+                }
+
+              }).catch((error) => {
+                alert("Ha ocurrido un erorr");
+              });
+
+            }
+
           }
         }).mount('#main')
-    </script>
+      </script>
+  
 </body>
 </html>
