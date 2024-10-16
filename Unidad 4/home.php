@@ -135,7 +135,7 @@ $products = $authController->products();
                                         <div class="card-body">
                                         <h5 class="card-title"><?= $product['name'] ?></h5>
                                         <p class="card-text"><?= $product['description'] ?></p>
-                                        <a href="details.php?id=<?= $product['id'] ?>" class="btn btn-primary">Detalles</a>
+                                        <a href="details.php?slug=<?= $product['slug'] ?>" class="btn btn-primary">Detalles</a>
                                         </div>
                                     </div>
                                     <?php endforeach; ?>
