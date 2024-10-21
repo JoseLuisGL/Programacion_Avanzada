@@ -1,19 +1,10 @@
-<?php
-include 'app/AuthController.php';
-$authController = new AuthController();
-$products = $authController->products();
-
-#limitar productos para ver nomas
-#$limitedProducts = array_slice($products, 0, 3);
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>
-		Home
+		Agregar
 	</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" >
   </head>
@@ -122,30 +113,37 @@ $products = $authController->products();
 					  </div>
 					</nav>
 					<div id="main">
-						
 						<div class="container p-3"> 
-							<h2>
-								Lista de productos
-							</h2>
-							<div class="row"> 
-							<a href="add_product.php" class="btn btn-primary">+Agregar</a>
-                                <?php if (!empty($products)): ?>
-                                    <?php foreach ($products as $product): ?>
-                                    <div class="card m-1" style="width: 18rem;">
-                                        <img src="<?= $product['cover'] ?>" class="card-img-top" alt="<?= $product['name'] ?>">
-                                        <div class="card-body">
-                                        <h5 class="card-title"><?= $product['name'] ?></h5>
-                                        <p class="card-text"><?= $product['description'] ?></p>
-                                        <a href="details.php?slug=<?= $product['slug'] ?>" class="btn btn-primary">Detalles</a>
-										<a href="edit_product.php" class="btn btn-primary">Editar</a>
-										<a href="#" class="btn btn-danger">Eliminar</a>
-                                        </div>
-                                    </div>
-                                    <?php endforeach; ?>
-                                <?php else: ?>
-                                    <p>No hay mass productoss</p>
-                                <?php endif; ?>
-							</div>
+                            <h2>
+                                Agregar Producto
+                            </h2>
+							<form action="" method="">
+								<div class="mb-3">
+									<label for="name" class="form-label">Nombre del Producto</label>
+									<input type="text" class="form-control" id="name" name="name" required>
+								</div>
+								<div class="mb-3">
+									<label for="description" class="form-label">Descripción</label>
+									<textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+								</div>
+                                <div class="mb-3">
+									<label for="features" class="form-label">Caracteristicas</label>
+									<textarea class="form-control" id="features" name="features" rows="3" required></textarea>
+								</div>
+                                <div class="mb-3">
+									<label for="brand" class="form-label">Marca</label>
+									<input type="text" class="form-control" id="brand" name="brand" required>
+								</div>
+								<div class="mb-3">
+									<label for="price" class="form-label">Precio</label>
+									<input type="number" class="form-control" id="price" name="price" required>
+								</div>
+								<div class="mb-3">
+									<label for="cover" class="form-label">Imagen del Producto</label>
+									<input type="file" class="form-control" id="cover" name="cover" required>
+								</div>
+								<button type="submit" class="btn btn-primary">Agregar Producto</button>
+							</form>
 						</div>
 					</div>
 	 			</div>

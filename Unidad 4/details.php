@@ -156,6 +156,7 @@ $product = $authController->getBySlug($slug);
                                 <p>
                                   <?= $product['features'] ?>
                                 </p>
+                                <h5> Precio: $<?= $product['presentations'][0]['price'][0]['amount'] ?></h5>
                                 <h5> Marca:</h5>
                                 <li><?= $product['brand']['name'] ?></li>
                                 <h5>Etiquetas:</h5>
