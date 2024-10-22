@@ -2,8 +2,21 @@
 include 'app/ProductController.php';
 
 $ProductController = new ProductController();
-$slug = $_GET['slug'];
-$product = $ProductController->getBySlug($slug);
+  if (!isset($_GET['slug']) || $_GET['slug']=="") {
+    header('Location: home.php'); 
+  }
+
+
+  if (isset($_SESSION['user_id']) && $_SESSION['user_id']!=null) {
+    
+
+    $product = $ProductController->getBySlug($_GET['slug']);
+
+
+  }else{
+
+    header('Location: login.php');
+  }
 ?>
 
 

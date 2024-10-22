@@ -1,7 +1,18 @@
 <?php
 include 'app/ProductController.php';
 $ProductController = new ProductController();
-$products = $ProductController->products();
+
+	if (isset($_SESSION['user_id']) && $_SESSION['user_id']!=null) {
+			
+
+		$products = $ProductController->products();
+
+
+	}else{
+
+		header('Location: login.php');
+	}
+
 ?>
 
 <!DOCTYPE html>
