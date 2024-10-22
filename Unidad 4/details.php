@@ -1,9 +1,9 @@
 <?php
-include 'app/AuthController.php';
+include 'app/ProductController.php';
 
-$authController = new AuthController();
+$ProductController = new ProductController();
 $slug = $_GET['slug'];
-$product = $authController->getBySlug($slug);
+$product = $ProductController->getBySlug($slug);
 ?>
 
 

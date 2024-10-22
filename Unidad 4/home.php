@@ -1,10 +1,7 @@
 <?php
-include 'app/AuthController.php';
-$authController = new AuthController();
-$products = $authController->products();
-
-#limitar productos para ver nomas
-#$limitedProducts = array_slice($products, 0, 3);
+include 'app/ProductController.php';
+$ProductController = new ProductController();
+$products = $ProductController->products();
 ?>
 
 <!DOCTYPE html>
@@ -198,18 +195,3 @@ $products = $authController->products();
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-
-<!--if(isset(post['action']))
- switch(isset(post['action']){
-	case 'creatre_prod'
-	$nombre = $_post['nombre'];
-	$slug = $_post['slug'];
-	$description = $_post['description'];
-	$features = $_post['features'];
-
-	$producController = new AuthController();
-	$producController->login($email, $password);
-
-	$response ->code &&
-								-->
