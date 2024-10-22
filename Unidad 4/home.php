@@ -128,7 +128,7 @@ $products = $authController->products();
 								Lista de productos
 							</h2>
 							<div class="row"> 
-							<a href="add_product.php" class="btn btn-primary">+Agregar</a>
+							<a data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-primary">+Agregar</a>
                                 <?php if (!empty($products)): ?>
                                     <?php foreach ($products as $product): ?>
                                     <div class="card m-1" style="width: 18rem;">
@@ -155,6 +155,61 @@ $products = $authController->products();
 		
 	</div>
 	
+	<!-- Modal -->
+	<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+		<div class="modal-header">
+			<h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body">
+			<form action="app/ProductController.php" method="POST">
+				<div class="mb-3">
+					<label for="exampleInputEmail1" class="form-label">Nombre</label>
+					<input type="text" class="form-control" id="nombre" name="nombre" required>
+				</div>
+				<div class="mb-3">
+					<label for="exampleInputEmail1" class="form-label">Slug</label>
+					<input type="text" class="form-control" id="slug" name="slug" required>
+				</div>
+				<div class="mb-3">
+					<label for="exampleInputEmail1" class="form-label">Descripcion</label>
+					<input type="text" class="form-control" id="description" name="description" required>
+				</div>
+				<div class="mb-3">
+					<label for="exampleInputEmail1" class="form-label">Features</label>
+					<input type="text" class="form-control" id="features" name="features" required>
+				</div>
+				<input type="hidden" name="action" value="create_product" />
+				<div class="d-grid gap-2 col-6 mx-auto">
+                	<button class="btn btn-primary" type="submit">Agregar</button>
+              	</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+		</div>
+		</div>
+	</div>
+	</div>
+
+
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+
+<!--if(isset(post['action']))
+ switch(isset(post['action']){
+	case 'creatre_prod'
+	$nombre = $_post['nombre'];
+	$slug = $_post['slug'];
+	$description = $_post['description'];
+	$features = $_post['features'];
+
+	$producController = new AuthController();
+	$producController->login($email, $password);
+
+	$response ->code &&
+								-->
