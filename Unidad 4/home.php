@@ -145,7 +145,7 @@ $ProductController = new ProductController();
                                         <h5 class="card-title"><?= $product['name'] ?></h5>
                                         <p class="card-text"><?= $product['description'] ?></p>
                                         <a href="details.php?slug=<?= $product['slug'] ?>" class="btn btn-primary">Detalles</a>
-										<a href="edit_product.php" class="btn btn-primary">Editar</a>
+										<a data-bs-toggle="modal" data-bs-target="#staticBackdrop2" class="btn btn-primary edit-btn" data-slug="<?= $product['slug'] ?>">Editar</a>
 										<a href="#" class="btn btn-danger">Eliminar</a>
                                         </div>
                                     </div>
@@ -163,46 +163,108 @@ $ProductController = new ProductController();
 		
 	</div>
 	
-	<!-- Modal -->
+	<!-- Modal Agregar -->
 	<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-		<div class="modal-header">
-			<h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-		</div>
-		<div class="modal-body">
-			<form action="app/ProductController.php" method="POST">
-				<div class="mb-3">
-					<label for="exampleInputEmail1" class="form-label">Nombre</label>
-					<input type="text" class="form-control" id="nombre" name="nombre" required>
-				</div>
-				<div class="mb-3">
-					<label for="exampleInputEmail1" class="form-label">Slug</label>
-					<input type="text" class="form-control" id="slug" name="slug" required>
-				</div>
-				<div class="mb-3">
-					<label for="exampleInputEmail1" class="form-label">Descripcion</label>
-					<input type="text" class="form-control" id="description" name="description" required>
-				</div>
-				<div class="mb-3">
-					<label for="exampleInputEmail1" class="form-label">Features</label>
-					<input type="text" class="form-control" id="features" name="features" required>
-				</div>
-				<input type="hidden" name="action" value="create_product" />
-				<div class="d-grid gap-2 col-6 mx-auto">
-                	<button class="btn btn-primary" type="submit">Agregar</button>
-              	</div>
-			</form>
-		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-		</div>
+		<div class="modal-dialog">
+			<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form action="app/ProductController.php" method="POST">
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Nombre</label>
+						<input type="text" class="form-control" id="nombre" name="nombre" required>
+					</div>
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Slug</label>
+						<input type="text" class="form-control" id="slug" name="slug" required>
+					</div>
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Descripcion</label>
+						<input type="text" class="form-control" id="description" name="description" required>
+					</div>
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Features</label>
+						<input type="text" class="form-control" id="features" name="features" required>
+					</div>
+					<input type="hidden" name="action" value="create_product" />
+					<div class="d-grid gap-2 col-6 mx-auto">
+						<button class="btn btn-primary" type="submit">Agregar</button>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+			</div>
+			</div>
 		</div>
 	</div>
+
+	<!-- Modal Editar -->
+	<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="staticBackdropLabel">Editar Producto</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form action="app/ProductController.php" method="POST">
+						<div class="mb-3">
+							<label for="edit_nombre" class="form-label">Nombre</label>
+							<input type="text" class="form-control" id="edit_nombre" name="nombre" required>
+						</div>
+						<div class="mb-3">
+							<label for="edit_slug" class="form-label">Slug</label>
+							<input type="text" class="form-control" id="edit_slug" name="slug" required>
+						</div>
+						<div class="mb-3">
+							<label for="edit_description" class="form-label">Descripción</label>
+							<input type="text" class="form-control" id="edit_description" name="description" required>
+						</div>
+						<div class="mb-3">
+							<label for="edit_features" class="form-label">Características</label>
+							<input type="text" class="form-control" id="edit_features" name="features" required>
+						</div>
+						<input type="hidden" id="edit_id" name="id" />
+						<div class="d-grid gap-2 col-6 mx-auto">
+							<button class="btn btn-primary" type="submit">Guardar Cambios</button>
+						</div>
+						<input type="hidden" name="action" value="edit_product" />
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+				</div>
+			</div>
+		</div>
 	</div>
+
+
 
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script>
+    document.querySelectorAll(".edit-btn").forEach(button => {
+        button.addEventListener("click", function() {
+            const slug = this.getAttribute("data-slug");
+           
+            fetch(`app/ProductController.php?action=get_product&slug=${slug}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("edit_nombre").value = data.name;
+                    document.getElementById("edit_slug").value = data.slug;
+                    document.getElementById("edit_description").value = data.description;
+                    document.getElementById("edit_features").value = data.features;
+					document.getElementById("edit_id").value = data.id; 
+                })
+                .catch(error => console.error("Error pa", error));
+       	 	});
+    	});
+	</script>
+
+
 </body>
 </html>
