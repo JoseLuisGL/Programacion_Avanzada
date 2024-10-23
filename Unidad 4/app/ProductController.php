@@ -24,6 +24,12 @@ if (isset($_POST['action'])) {
             $productController = new ProductController();
             $productController->edit_Product($nombre, $slug, $description, $features, $id);
             break;
+        case 'remove_product':
+            $id = $_POST["id"];
+
+            $productController = new ProductController();
+            $productController->remove_Product($id);
+            break;
     }
 }
 
@@ -174,7 +180,36 @@ class ProductController {
       } else {
           echo "<script>alert('Algo salio mal al editar pa');</script>";
       }
-  }  
+  }
+  public function remove_Product($id){
+      $curl = curl_init();
+
+      curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://crud.jonathansoto.mx/api/products/' . $id,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'DELETE',
+        CURLOPT_HTTPHEADER => array(
+          'Authorization: Bearer '.$_SESSION['user_data']->token
+        ),
+      ));
+
+      $response = curl_exec($curl);
+
+      curl_close($curl);
+      
+      $response = json_decode($response, true);
+
+      if(isset($response) && $response['code'] == 2){
+          header("Location: ../home.php?status=ok");
+      } else {
+          echo "<script>alert('Algo salio mal al editar pa');</script>";
+      }
+  }
 }
 
 ?>

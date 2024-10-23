@@ -146,7 +146,7 @@ $ProductController = new ProductController();
                                         <p class="card-text"><?= $product['description'] ?></p>
                                         <a href="details.php?slug=<?= $product['slug'] ?>" class="btn btn-primary">Detalles</a>
 										<a data-bs-toggle="modal" data-bs-target="#staticBackdrop2" class="btn btn-primary edit-btn" data-slug="<?= $product['slug'] ?>">Editar</a>
-										<a href="#" class="btn btn-danger">Eliminar</a>
+										<a href="#" onclick="remove(<?= $product['id'] ?>)" class="btn btn-danger">Eliminar</a>
                                         </div>
                                     </div>
                                     <?php endforeach; ?>
@@ -242,10 +242,16 @@ $ProductController = new ProductController();
 		</div>
 	</div>
 
+	<!-- Esto se tiene que hacer cuando se le da "OK" en la funcion remove() --->
+	<form id="delete-form" action="app/ProductController.php" method="POST">
+		<input type="hidden" name="action" value="remove_product" />
+		<input type="hidden" id="delete-product-id" name="id" />
+	</form>
 
 
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script>
     document.querySelectorAll(".edit-btn").forEach(button => {
         button.addEventListener("click", function() {
@@ -263,6 +269,27 @@ $ProductController = new ProductController();
                 .catch(error => console.error("Error pa", error));
        	 	});
     	});
+
+		function remove(productId){
+			swal({
+			title: "Are you sure?",
+			text: "Once deleted, you will not be able to recover this imaginary file!",
+			icon: "warning",
+			buttons: true,
+			dangerMode: true,
+			})
+			.then((willDelete) => {
+			if (willDelete) {
+				swal("Poof! Your imaginary file has been deleted!", {
+				icon: "success",
+				});
+				document.getElementById("delete-product-id").value = productId;
+                document.getElementById("delete-form").submit();
+			} else {
+				
+			}
+			});
+		}
 	</script>
 
 
