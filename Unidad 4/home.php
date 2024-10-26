@@ -232,7 +232,6 @@ $ProductController = new ProductController();
                         <label for="edit_brand" class="form-label">Marca:</label>
                         <select class="form-control" name="brand_id" id="edit_brand" required>
                             <?php
-                            // Aquí debes obtener las marcas disponibles
                             $brands = $ProductController->get_Brands();
                             foreach ($brands as $brand) {
                                 echo "<option value=\"{$brand['id']}\">{$brand['name']}</option>";
@@ -276,7 +275,7 @@ $ProductController = new ProductController();
 
 					const brandSelect = document.getElementById("edit_brand");
         			brandSelect.value = data.brand_id;
-					
+
 					document.getElementById("edit_id").value = data.id; 
                 })
                 .catch(error => console.error("Error pa", error));
