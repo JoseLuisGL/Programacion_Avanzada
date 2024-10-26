@@ -6,17 +6,18 @@ session_start();
 if (isset($_POST['action'])) {
     switch ($_POST['action']) {
         case 'create_product':
-            $nombre = $_POST['nombre'];
+            $nombre = $_POST['name'];
             $slug = $_POST['slug'];
             $description = $_POST['description'];
             $features = $_POST['features'];
             $brand_id = $_POST['brands'];
+            $cover = $_FILES['cover'];
 
             $productController = new ProductController();
-            $productController->createProduct($nombre, $slug, $description, $features,  $brand_id);
+            $productController->createProduct($nombre, $slug, $description, $features,  $brand_id, $cover);
             break;
         case 'edit_product':
-            $name = $_POST["nombre"];
+            $nombre = $_POST["name"];
             $slug = $_POST["slug"];
             $description = $_POST["description"];
             $features = $_POST["features"];
@@ -117,9 +118,18 @@ class ProductController {
   
       }
 
-    public function createProduct($nombre, $slug, $description, $features, $brand_id) {
+    public function createProduct($nombre, $slug, $description, $features, $brand_id, $cover) {
         
         $curl = curl_init();
+        if (isset($_FILES['cover']) && $_FILES['cover']['error'] === UPLOAD_ERR_OK) {
+            $cover = $_FILES['cover']['tmp_name'];
+            $cover_img = $_FILES['cover']['name'];
+            $file = new CURLFILE($cover, mime_content_type($cover), $cover_img);
+        } else {
+            echo "Error: No se ha subido el archivo de imagen.";
+            return;
+        }
+      
 
         curl_setopt_array($curl, array(
         CURLOPT_URL => 'https://crud.jonathansoto.mx/api/products',
@@ -134,7 +144,8 @@ class ProductController {
                                     'slug' => $slug,
                                     'description' => $description,
                                     'brand_id' => $brand_id,
-                                    'features' => $features),
+                                    'features' => $features,
+                                    'cover'=> $file),
         CURLOPT_HTTPHEADER => array(
             'Authorization: Bearer '.$_SESSION['user_data']->token
         ),

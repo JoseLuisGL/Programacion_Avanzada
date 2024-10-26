@@ -162,10 +162,10 @@ $ProductController = new ProductController();
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<form action="app/ProductController.php" method="POST">
+				<form action="app/ProductController.php" method="POST" enctype="multipart/form-data">
 					<div class="mb-3">
 						<label for="exampleInputEmail1" class="form-label">Nombre</label>
-						<input type="text" class="form-control" id="nombre" name="nombre" required>
+						<input type="text" class="form-control" id="name" name="name" required>
 					</div>
 					<div class="mb-3">
 						<label for="exampleInputEmail1" class="form-label">Slug</label>
@@ -189,6 +189,10 @@ $ProductController = new ProductController();
 								}
 							?>
 						</select>
+					</div>
+					<div class="mb-3">
+						<label for="cover" class="form-label">Imagen del Producto</label>
+						<input type="file" class="form-control" id="cover" name="cover" required>
 					</div>
 					<input type="hidden" name="action" value="create_product" />
 					<div class="d-grid gap-2 col-6 mx-auto">
@@ -214,7 +218,7 @@ $ProductController = new ProductController();
                 <form action="app/ProductController.php" method="POST">
                     <div class="mb-3">
                         <label for="edit_nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="edit_nombre" name="nombre" required>
+                        <input type="text" class="form-control" id="edit_name" name="name" required>
                     </div>
                     <div class="mb-3">
                         <label for="edit_slug" class="form-label">Slug</label>
@@ -268,7 +272,7 @@ $ProductController = new ProductController();
             fetch(`app/ProductController.php?action=get_product&slug=${slug}`)
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById("edit_nombre").value = data.name;
+                    document.getElementById("edit_name").value = data.name;
                     document.getElementById("edit_slug").value = data.slug;
                     document.getElementById("edit_description").value = data.description;
                     document.getElementById("edit_features").value = data.features;
