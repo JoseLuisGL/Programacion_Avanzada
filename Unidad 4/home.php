@@ -4,10 +4,8 @@ $ProductController = new ProductController();
 
 	if (isset($_SESSION['user_id']) && $_SESSION['user_id']!=null) {
 			
-
 		$products = $ProductController->products();
-
-
+		
 	}else{
 
 		header('Location: login.php');
@@ -27,9 +25,7 @@ $ProductController = new ProductController();
   </head>
 </head>
 <body>
- 	
 	<div class=""> 
-	 	
 	 	<div class="container-fluid">
 	 		<div class="row">
 	 			<div class="col-2 p-0 m-0 d-none d-md-block">
@@ -130,11 +126,8 @@ $ProductController = new ProductController();
 					  </div>
 					</nav>
 					<div id="main">
-						
 						<div class="container p-3"> 
-							<h2>
-								Lista de productos
-							</h2>
+							<h2>Lista de productos</h2>
 							<div class="row"> 
 							<a data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-primary">+Agregar</a>
                                 <?php if (!empty($products)): ?>
@@ -159,10 +152,7 @@ $ProductController = new ProductController();
 	 			</div>
 	 		</div>
 	 	</div>
-		
-		
 	</div>
-	
 	<!-- Modal Agregar -->
 	<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -189,6 +179,17 @@ $ProductController = new ProductController();
 						<label for="exampleInputEmail1" class="form-label">Features</label>
 						<input type="text" class="form-control" id="features" name="features" required>
 					</div>
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Brands</label>
+						<select class="form-control" name="brands" id="brands">
+							<?php
+								$brands = $ProductController->get_Brands();
+								foreach ($brands as $brand) {
+									echo "<option value=\"{$brand['id']}\">{$brand['name']}</option>";
+								}
+							?>
+						</select>
+					</div>
 					<input type="hidden" name="action" value="create_product" />
 					<div class="d-grid gap-2 col-6 mx-auto">
 						<button class="btn btn-primary" type="submit">Agregar</button>
@@ -201,55 +202,63 @@ $ProductController = new ProductController();
 			</div>
 		</div>
 	</div>
-
 	<!-- Modal Editar -->
-	<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="staticBackdropLabel">Editar Producto</h1>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<form action="app/ProductController.php" method="POST">
-						<div class="mb-3">
-							<label for="edit_nombre" class="form-label">Nombre</label>
-							<input type="text" class="form-control" id="edit_nombre" name="nombre" required>
-						</div>
-						<div class="mb-3">
-							<label for="edit_slug" class="form-label">Slug</label>
-							<input type="text" class="form-control" id="edit_slug" name="slug" required>
-						</div>
-						<div class="mb-3">
-							<label for="edit_description" class="form-label">Descripción</label>
-							<input type="text" class="form-control" id="edit_description" name="description" required>
-						</div>
-						<div class="mb-3">
-							<label for="edit_features" class="form-label">Características</label>
-							<input type="text" class="form-control" id="edit_features" name="features" required>
-						</div>
-						<input type="hidden" id="edit_id" name="id" />
-						<div class="d-grid gap-2 col-6 mx-auto">
-							<button class="btn btn-primary" type="submit">Guardar Cambios</button>
-						</div>
-						<input type="hidden" name="action" value="edit_product" />
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-				</div>
-			</div>
-		</div>
-	</div>
+<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar Producto</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="app/ProductController.php" method="POST">
+                    <div class="mb-3">
+                        <label for="edit_nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="edit_nombre" name="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_slug" class="form-label">Slug</label>
+                        <input type="text" class="form-control" id="edit_slug" name="slug" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_description" class="form-label">Descripción</label>
+                        <input type="text" class="form-control" id="edit_description" name="description" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_features" class="form-label">Características</label>
+                        <input type="text" class="form-control" id="edit_features" name="features" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_brand" class="form-label">Marca:</label>
+                        <select class="form-control" name="brand_id" id="edit_brand" required>
+                            <?php
+                            // Aquí debes obtener las marcas disponibles
+                            $brands = $ProductController->get_Brands();
+                            foreach ($brands as $brand) {
+                                echo "<option value=\"{$brand['id']}\">{$brand['name']}</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <input type="hidden" id="edit_id" name="id" />
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button class="btn btn-primary" type="submit">Guardar Cambios</button>
+                    </div>
+                    <input type="hidden" name="action" value="edit_product" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 	<!-- Esto se tiene que hacer cuando se le da "OK" en la funcion remove() --->
 	<form id="delete-form" action="app/ProductController.php" method="POST">
 		<input type="hidden" name="action" value="remove_product" />
 		<input type="hidden" id="delete-product-id" name="id" />
 	</form>
-
-
-
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script>
@@ -264,12 +273,15 @@ $ProductController = new ProductController();
                     document.getElementById("edit_slug").value = data.slug;
                     document.getElementById("edit_description").value = data.description;
                     document.getElementById("edit_features").value = data.features;
+
+					const brandSelect = document.getElementById("edit_brand");
+        			brandSelect.value = data.brand_id;
+					
 					document.getElementById("edit_id").value = data.id; 
                 })
                 .catch(error => console.error("Error pa", error));
        	 	});
     	});
-
 		function remove(productId){
 			swal({
 			title: "Are you sure?",
@@ -291,7 +303,5 @@ $ProductController = new ProductController();
 			});
 		}
 	</script>
-
-
 </body>
 </html>

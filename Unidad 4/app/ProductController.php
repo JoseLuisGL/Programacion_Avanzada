@@ -10,9 +10,10 @@ if (isset($_POST['action'])) {
             $slug = $_POST['slug'];
             $description = $_POST['description'];
             $features = $_POST['features'];
+            $brand_id = $_POST['brands'];
 
             $productController = new ProductController();
-            $productController->createProduct($nombre, $slug, $description, $features);
+            $productController->createProduct($nombre, $slug, $description, $features,  $brand_id);
             break;
         case 'edit_product':
             $name = $_POST["nombre"];
@@ -20,9 +21,11 @@ if (isset($_POST['action'])) {
             $description = $_POST["description"];
             $features = $_POST["features"];
             $id = $_POST["id"];
+            $brand_id = $_POST["brand_id"];
 
             $productController = new ProductController();
-            $productController->edit_Product($nombre, $slug, $description, $features, $id);
+            $productController->edit_Product($nombre, $slug, $description, $features, $id, $brand_id);
+
             break;
         case 'remove_product':
             $id = $_POST["id"];
@@ -98,16 +101,23 @@ class ProductController {
         curl_close($curl);
         #echo $response;
   
-        $responseData = json_decode($response, true);
-        if (isset($responseData['data'])) {
-          return $responseData['data'];
+        $productData = json_decode($response, true);
+
+        if (isset($productData['data'])) {
+            $product = $productData['data'];
+
+            $brand = $this->get_especific_Brand($product['brand_id']);
+            $product['brand_name'] = $brand['name'] ?? 'Ninguna';
+
+            return $product;
         } else {
-          return [];
+            return null;
         }
+
   
       }
 
-    public function createProduct($nombre, $slug, $description, $features) {
+    public function createProduct($nombre, $slug, $description, $features, $brand_id) {
         
         $curl = curl_init();
 
@@ -123,6 +133,7 @@ class ProductController {
         CURLOPT_POSTFIELDS => array('name' => $nombre,
                                     'slug' => $slug,
                                     'description' => $description,
+                                    'brand_id' => $brand_id,
                                     'features' => $features),
         CURLOPT_HTTPHEADER => array(
             'Authorization: Bearer '.$_SESSION['user_data']->token
@@ -144,7 +155,7 @@ class ProductController {
         
     }
 
-    public function edit_Product($nombre, $slug, $description, $features, $id){
+    public function edit_Product($nombre, $slug, $description, $features, $id, $brand_id){
       $curl = curl_init();
 
       curl_setopt_array($curl, array(
@@ -162,6 +173,7 @@ class ProductController {
           'description' => $description,
           'features' => $features,
           'id' => $id,
+          'brand_id' => $brand_id,
       )),
       CURLOPT_HTTPHEADER => array(
           'Content-Type: application/x-www-form-urlencoded',
@@ -207,9 +219,84 @@ class ProductController {
       if(isset($response) && $response['code'] == 2){
           header("Location: ../home.php?status=ok");
       } else {
-          echo "<script>alert('Algo salio mal al editar pa');</script>";
+          echo "<script>alert('Algo salio mal al borrar pa');</script>";
       }
+  }
+
+  public function get_Brands(){
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => 'https://crud.jonathansoto.mx/api/brands',
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'GET',
+      CURLOPT_HTTPHEADER => array(
+        'Authorization: Bearer '.$_SESSION['user_data']->token
+      ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    $response = json_decode($response, true);
+    return $response['data'];
+  }
+
+  public function get_especific_Brand($brand_id) {
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://crud.jonathansoto.mx/api/brands/' . $brand_id,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array(
+            'Authorization: Bearer ' . $_SESSION['user_data']->token
+        ),
+    ));
+
+    $response = curl_exec($curl);
+    curl_close($curl);
+
+    return json_decode($response, true)['data'] ?? null;
   }
 }
 
 ?>
+
+///public function uptdate_Brand($brand_id, $brand_name) {
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => 'https://crud.jonathansoto.mx/api/brands',
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'PUT',
+      CURLOPT_POSTFIELDS => http_build_query(array(
+        'name' => $brand_name,
+        'brand_id' => $brand_id,
+    )),
+      CURLOPT_HTTPHEADER => array(
+        'Authorization: Bearer ' . $_SESSION['user_data']->token,
+        'Content-Type: application/x-www-form-urlencoded'
+      ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
+  }
