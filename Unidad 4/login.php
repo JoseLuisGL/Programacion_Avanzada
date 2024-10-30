@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (!isset($_SESSION['global_token'])) {
+    $_SESSION['global_token'] = tokenG(32);
+}
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -36,6 +43,7 @@
                 <label class="form-check-label" for="exampleCheck1">Check me out</label>
               </div>
               <input type="hidden" name="action" value="access" />
+              <input type="hidden" name="global_token" value="<?php echo $_SESSION['global_token']; ?>">
               <div class="d-grid gap-2 col-6 mx-auto">
                 <button class="btn btn-primary" type="submit">Login</button>
               </div>

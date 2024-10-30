@@ -1,16 +1,33 @@
 <?php
 session_start();
 
-if(isset($_POST["action"])) {
-    switch($_POST["action"]) {
-        case "access":
-            $authController = new AuthController();
+if (!isset($_SESSION['global_token'])) {
+    $_SESSION['global_token'] = tokenG(32);
+}
 
-            $email = $_POST["email"];
-            $password = $_POST["password"];
+function tokenG($leng=10) {
+    $caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    $token = '';
 
-            $authController->login($email, $password);
-            break;
+    for ($i = 0; $i < $leng; $i++) {
+        $token .= $caracteres[rand(0, 35)];
+    }
+    return $token;
+}
+
+if (isset($_POST['action'])) {
+    if (isset($_POST['global_token']) && $_POST['global_token'] === $_SESSION['global_token']) {
+        switch ($_POST['action']) {
+            case "access":
+                $authController = new AuthController();
+                $email = $_POST['email'];
+                $password = $_POST['password'];
+                $authController->login($email, $password);
+                break;
+            }
+    } else {
+        header("Location: login.php?error=invalid_token");
+        exit();
     }
 }
 
