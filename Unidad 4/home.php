@@ -137,7 +137,7 @@ $ProductController = new ProductController();
                                         <div class="card-body">
                                         <h5 class="card-title"><?= $product['name'] ?></h5>
                                         <p class="card-text"><?= $product['description'] ?></p>
-                                        <a href="details.php?slug=<?= $product['slug'] ?>" class="btn btn-primary">Detalles</a>
+                                        <a href="details/<?= $product['slug'] ?>" class="btn btn-primary">Detalles</a>
 										<a data-bs-toggle="modal" data-bs-target="#staticBackdrop2" class="btn btn-primary edit-btn" data-slug="<?= $product['slug'] ?>">Editar</a>
 										<a href="#" onclick="remove(<?= $product['id'] ?>)" class="btn btn-danger">Eliminar</a>
                                         </div>

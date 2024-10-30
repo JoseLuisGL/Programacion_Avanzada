@@ -1,0 +1,12 @@
+Options +FollowSymLinks
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^home/?$ home.php [L]
+
+RewriteRule ^details/([^/]+)/?$ details.php?slug=$1 [L,QSA]
+
+RewriteRule ^auth/?$ AuthController.php [L]
+
+RewriteRule ^resources/?$ ProductController.php [L]
